@@ -5,13 +5,23 @@ import { db } from './firebaseConfig';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 
 export default function App() {
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  const [user, setUser] = useState('');
+
+  const handleLogin = async () => {
+    if (login === '' || password === '') {
+      Alert.alert('Błąd', 'Uzupełnij wszystkie pola');
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Logowanie</Text>
       <View>
-        <TextInput style={styles.input} placeholder="Podaj login"></TextInput>
-        <TextInput style={styles.input} placeholder="Podaj hasło" secureTextEntry></TextInput>
-        <Button title="Zaloguj się"></Button>
+        <TextInput style={styles.input} placeholder="Podaj login" onChangeText={setLogin}></TextInput>
+        <TextInput style={styles.input} placeholder="Podaj hasło" onChangeText={setPassword} secureTextEntry></TextInput>
+        <Button title="Zaloguj się" onPress={handleLogin}></Button>
       </View>
     </SafeAreaView>
   );
