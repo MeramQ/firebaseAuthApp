@@ -13,6 +13,28 @@ export default function App() {
     if (login === '' || password === '') {
       Alert.alert('Błąd', 'Uzupełnij wszystkie pola');
     }
+
+    try {
+      const usersRef = collection(db, 'users');
+      const q = query(usersRef, where('login', '==', login));
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        Alert.alert('Błąd', 'Niepoprawne dane logowania');
+        return;
+      }
+
+      const userDoc = querySnapshot.docs[0];
+      const userData = userDoc.data();
+
+      if (userData.password === password) {
+        Alert.alert('Zalogowano', `Witaj ${userData.firstName} ${userData.lastName}!`);
+      } else {
+        Alert.alert('Błąd', 'Niepoprawne dane logowania');
+      }
+    } catch (error) {
+      Alert.alert('Błąd', 'Wystąpił błąd, spróbuj ponownie później');
+    }
   }
 
   return (
