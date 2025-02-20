@@ -38,6 +38,13 @@ export default function App() {
     }
   }
 
+  const handleLogout = () => {
+    setUser('');
+    setLogin('');
+    setPassword('');
+    Alert.alert('Wylogowano', 'Zostałeś poprawnie wylogowany');
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       {!user ? (
@@ -50,7 +57,7 @@ export default function App() {
       ) : (
         <View>
           <Text style={styles.title}>Witaj {user.firstName} {user.lastName}</Text>
-          <Button title="Wyloguj" onPress={() => setUser('')}></Button>
+          <Button title="Wyloguj" onPress={handleLogout}></Button>
         </View>
       )}
     </SafeAreaView>
