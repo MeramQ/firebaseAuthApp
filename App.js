@@ -29,6 +29,7 @@ export default function App() {
 
       if (userData.password === password) {
         Alert.alert('Zalogowano', `Witaj ${userData.firstName} ${userData.lastName}!`);
+        setUser(userData);
       } else {
         Alert.alert('Błąd', 'Niepoprawne dane logowania');
       }
@@ -39,12 +40,19 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Logowanie</Text>
-      <View>
-        <TextInput style={styles.input} placeholder="Podaj login" onChangeText={setLogin}></TextInput>
-        <TextInput style={styles.input} placeholder="Podaj hasło" onChangeText={setPassword} secureTextEntry></TextInput>
-        <Button title="Zaloguj się" onPress={handleLogin}></Button>
-      </View>
+      {!user ? (
+        <View style={styles.container}>
+          <Text style={styles.title}>Logowanie</Text>
+          <TextInput style={styles.input} placeholder="Podaj login" onChangeText={setLogin}></TextInput>
+          <TextInput style={styles.input} placeholder="Podaj hasło" onChangeText={setPassword} secureTextEntry></TextInput>
+          <Button title="Zaloguj się" onPress={handleLogin}></Button>
+        </View>
+      ) : (
+        <View>
+          <Text style={styles.title}>Witaj {user.firstName} {user.lastName}</Text>
+          <Button title="Wyloguj" onPress={() => setUser('')}></Button>
+        </View>
+      )}
     </SafeAreaView>
   );
 }
