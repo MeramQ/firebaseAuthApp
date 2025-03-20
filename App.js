@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, TextInput, Alert, SafeAreaView, TouchableOpacity } from 'react-native';
 import { db } from './firebaseConfig';
 import { collection, query, where, getDocs, addDoc } from 'firebase/firestore';
+import * as Crypto from 'expo-crypto';
 
 export default function App() {
   const [login, setLogin] = useState('');
@@ -33,7 +34,12 @@ export default function App() {
       const userDoc = querySnapshot.docs[0];
       const userData = userDoc.data();
 
-      if (userData.password === password) {
+      const hashedPassword = await Crypto.digestStringAsync(
+        Crypto.CryptoDigestAlgorithm.SHA256,
+        password
+      );
+
+      if (userData.password === hashedPassword) {
         Alert.alert('Zalogowano', `Witaj ${userData.firstName} ${userData.lastName}!`);
         setUser(userData);
       } else {
@@ -51,8 +57,9 @@ export default function App() {
     Alert.alert('Wylogowano', 'Zostałeś poprawnie wylogowany');
   }
 
-  const handleAddUser = async (email, firstName, lastName, login, password) => {
+  const handleAddUser = async (email, firstName, lastName, login, plainPassword) => {
     try {
+      const password = await hashPassword(plainPassword);
       await addDoc(collection(db, 'users'), {
         email,
         firstName,
@@ -65,6 +72,20 @@ export default function App() {
       Alert.alert('Błąd', 'Wystąpił błąd, spróbuj ponownie później');
     }
   };
+
+  const hashPassword = async (password) => {
+    try {
+      const hashedPassword = await Crypto.digestStringAsync(
+        Crypto.CryptoDigestAlgorithm.SHA256,
+        password
+      );
+      return hashedPassword;
+    } catch (error) {
+      console.error('Błąd haszowania hasła:', error);
+      throw error;
+    }
+  };
+
 
   return (
     <SafeAreaView style={styles.container}>
