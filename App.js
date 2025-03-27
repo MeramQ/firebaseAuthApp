@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, TextInput, Alert, SafeAreaView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Alert, SafeAreaView, TouchableOpacity } from 'react-native';
 import { db } from './firebaseConfig';
 import { collection, query, where, getDocs, addDoc } from 'firebase/firestore';
 import * as Crypto from 'expo-crypto';
