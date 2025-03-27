@@ -67,6 +67,11 @@ export default function App() {
         password
       });
       Alert.alert('Dodano użytkownika', 'Użytkownik został dodany do bazy danych');
+      setNewFirstName('');
+      setNewLastName('');
+      setNewLogin('');
+      setNewEmail('');
+      setNewPassword('');
     } catch (error) {
       Alert.alert('Błąd', 'Wystąpił błąd, spróbuj ponownie później');
     }
@@ -108,11 +113,11 @@ export default function App() {
 
           <View style={styles.registerContainer}>
             <Text style={styles.title}>Dodaj nowego użytkownika</Text>
-            <TextInput style={styles.input} placeholder="Podaj imię nowego użytkownika" onChangeText={setNewFirstName} />
-            <TextInput style={styles.input} placeholder="Podaj nazwisko nowego użytkownika" onChangeText={setNewLastName} />
-            <TextInput style={styles.input} placeholder="Podaj email nowego użytkownika" onChangeText={setNewEmail} />
-            <TextInput style={styles.input} placeholder="Podaj login nowego użytkownika" onChangeText={setNewLogin} />
-            <TextInput style={styles.input} placeholder="Podaj hasło nowego użytkownika" onChangeText={setNewPassword} secureTextEntry />
+            <TextInput style={styles.input} placeholder="Podaj imię nowego użytkownika" onChangeText={setNewFirstName} value={newFirstName} />
+            <TextInput style={styles.input} placeholder="Podaj nazwisko nowego użytkownika" onChangeText={setNewLastName} value={newLastName}/>
+            <TextInput style={styles.input} placeholder="Podaj email nowego użytkownika" onChangeText={setNewEmail} value={newEmail}/>
+            <TextInput style={styles.input} placeholder="Podaj login nowego użytkownika" onChangeText={setNewLogin} value={newLogin}/>
+            <TextInput style={styles.input} placeholder="Podaj hasło nowego użytkownika" onChangeText={setNewPassword} value={newPassword} secureTextEntry />
             <TouchableOpacity style={styles.button} onPress={() => handleAddUser(newEmail, newFirstName, newLastName, newLogin, newPassword)}>
               <Text>Dodaj użytkownika</Text>
             </TouchableOpacity>
